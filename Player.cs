@@ -3,7 +3,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-    public class Player : MonoBehaviour
+    public class Player : objectGame
     {
         private bool buildMode = false;
         public GameObject inputObject;
@@ -15,6 +15,7 @@ using UnityEngine;
         private LineRenderer wireComponent;
         private SystemManager SystemManager;
         public GameObject spot;
+        
         private void Update()
         {
             HandleControls();
@@ -106,30 +107,13 @@ using UnityEngine;
                 Time.timeScale = 0.5f;
             }
         }
+
         private void ControlWire()
         {
             if (wire == null)
             {
-                Vector2 pos;
-                wire = new GameObject("Wire " + Time.time);
-                wireComponent = wire.AddComponent<LineRenderer>();
-                wireComponent.sortingLayerName = "Convey";
-
-                if(inputObject != null){
-                pos = inputObject.transform.position;
-                Firstcontact = inputObject;
-                } else {
-                pos = outputObject.transform.position;  
-                Firstcontact = outputObject;
-                }
-
-                wireComponent.SetPosition(0, pos);
-                wireComponent.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
-                wireComponent.startColor = Color.black;
-                wireComponent.endColor = Color.black;
-
-                wireComponent.startWidth = 0.2f;
-                wireComponent.endWidth = 0.2f;
+                Vector2 startingPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                wire = initWire(startingPos, startingPos);
             }
 
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -145,18 +129,10 @@ using UnityEngine;
                 return;
             }
             
-            if (Input.GetKey(KeyCode.Mouse2))
-            {
-                mousePos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-            }
+            wire.initWire(startingPos, mousePos);
 
-            wireComponent.SetPosition(1, mousePos);
             if (inputObject != null && selectedObj != null){
-                wireComponent.SetPosition(1, selectedObj.transform.position);
-            }
-
-            if (inputObject != null && outputObject != null)
-            {
+                wire.initWire(startingPos, selectedObj.transform.position);
                 ConnectComponents();
             }
         }
