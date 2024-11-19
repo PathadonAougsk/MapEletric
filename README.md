@@ -1,8 +1,8 @@
 <h1 align="center">Eletric circuit!</h1>
 
 # Hi! 👋
-Simple eletric ciruit detector which could check if the circuit is parrarel or not!
-There is also click and drag function
+A simple electric circuit detector that checks whether a circuit is parallel or not!
+It also includes a click-and-drag function and a wiring system.
 
 # A little bit of back story!
-It was design to be use in nsc but didnt make the cut. So here lies the protype of it.
+This was designed for use in the NSC (National Science Competition) but didn’t make the cut. So, here lies the prototype.
